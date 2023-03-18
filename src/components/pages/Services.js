@@ -3,6 +3,7 @@ import '../../App.css';
 import './services.css'
 import { Link } from 'react-router-dom';
 import './Services'
+import { Alert } from 'bootstrap';
 
 export default function Services() {
   return <div className='sign-up'>
@@ -28,7 +29,7 @@ export default function Services() {
   </div>
   <div className='FileSubmit'>
   <input type="file" id="myFile" name="filename"/>
-    <Link to="/services" className='btnLogin'>Sign up</Link>
+    <Link to="/services" className='btnLogin'>Validate</Link>
   </div>
     
   </form>
