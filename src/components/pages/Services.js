@@ -4,8 +4,34 @@ import './services.css'
 import { Link } from 'react-router-dom';
 import './Services'
 import { Alert } from 'bootstrap';
+import {useRef, useEffect} from 'react';
 
 export default function Services() {
+
+  const ref = useRef(null);
+  const element = ref.current;
+  var firstName, lastName, idNumber
+  var userData = new Object();
+
+  useEffect(() => {
+    const handleClick = event => {
+      firstName=document.querySelector("#firstName").value
+      lastName=document.querySelector("#lastName").value
+      idNumber=document.querySelector("#idNumber").value
+      userData = { 
+        "firstName": firstName,
+        "lastName": lastName,
+        "idNumber": idNumber
+      };
+      console.log(userData)
+    };
+    element.addEventListener('click', handleClick);
+    return () => {
+      element.removeEventListener('click', handleClick);
+    };
+
+  }, []);
+
   return <div className='sign-up'>
   <form class="Servicebox" action="index.html" method="post">
     <h1 className='boxH1'>VALIDATE</h1>
@@ -29,7 +55,7 @@ export default function Services() {
   </div>
   <div className='FileSubmit'>
   <input type="file" id="myFile" name="filename"/>
-    <Link to="/services" className='btnLogin'>Validate</Link>
+    <Link to="/services" id="validate" ref={ref} className='btnLogin'>Validate</Link>
   </div>
     
   </form>
