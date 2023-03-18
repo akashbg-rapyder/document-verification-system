@@ -9,8 +9,8 @@ export default function Services() {
   <form class="Servicebox" action="index.html" method="post">
     <h1 className='boxH1'>VALIDATE</h1>
     <div className="name">
-    <input type="text" name="" placeholder="First Name"/>
-    <input type="text" name="" placeholder="Last Name"/>
+    <input type="text" name="" placeholder="First Name" id= "firstName"/>
+    <input type="text" name="" placeholder="Last Name" id= "lastName"/>
 
     </div>
     <div class="custom-select">
@@ -20,7 +20,7 @@ export default function Services() {
       <option value="2">PAN Card</option>
       <option value="3">Driving Licence</option>
     </select>
-    <input className='serviceSelect' type="number" name="" placeholder="ID Namber"/>
+    <input className='serviceSelect' type="number" name="" placeholder="ID Namber" id="idNumber"/>
     <select className='serviceGender'>
       <option value="0">Male</option>
       <option value="1">Female</option>
