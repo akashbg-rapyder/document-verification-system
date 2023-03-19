@@ -2,23 +2,27 @@ import React from 'react';
 import '../../App.css';
 import './services.css'
 import './Services'
-import {useRef} from 'react';
 import { Upload } from "@aws-sdk/lib-storage";
-import { S3Client, S3 } from "@aws-sdk/client-s3";
+import { S3Client} from "@aws-sdk/client-s3";
 import { v4 as uuidv4 } from 'uuid';
 
 export default function Services() {
 
-  const ref = useRef();
-  var firstName, lastName, idNumber
+  var firstName, lastName, idNumber, birthDate
   var userData = new Object();
+  var s3BucketName = process.env.REACT_APP_S3_BUCKET_NAME
+  var awsRegion = process.env.REACT_APP_AWS_REGION
+  var awsAccessKeyId = process.env.REACT_APP_AWS_ACCESS_KEY_ID
+  var awsSecretAccessKey = process.env.REACT_APP_AWS_SECRET_ACCESS_KEY
 
   const upload = (file)=>{
+    console.log(s3BucketName, awsRegion)
     const fileName = uuidv4();
-
+    const s3BucketUrl = "https://"+s3BucketName +"."+awsRegion+".amazonaws.com/"+fileName+"";
+    console.log("s3 bucket url"+s3BucketUrl);
     var file = file.target.files[0];
-    const target = {Bucket: "", Key:fileName, Body:file}
-    const credentials = {accessKeyId:"", secretAccessKey:""}
+    const target = {Bucket: s3BucketName, Key:fileName, Body:file}
+    const credentials = {accessKeyId:awsAccessKeyId, secretAccessKey:awsSecretAccessKey}
     try {
       const parallelUploads3 = new Upload({
         client: new S3Client({region:"ap-south-1", credentials:credentials}),
@@ -39,12 +43,13 @@ export default function Services() {
       firstName=document.querySelector("#firstName").value
       lastName=document.querySelector("#lastName").value
       idNumber=document.querySelector("#idNumber").value
+      birthDate=document.querySelector("#birthDate").value
       userData = { 
         "firstName": firstName,
         "lastName": lastName,
-        "idNumber": idNumber
+        "idNumber": idNumber,
+        "birthDate": birthDate
       };
-      
       console.log(userData)
   }
 
@@ -54,7 +59,7 @@ export default function Services() {
     <div className="name">
     <input type="text" name="" placeholder="First Name" id= "firstName"/>
     <input type="text" name="" placeholder="Last Name" id= "lastName"/>
-
+    <input type='date' name="" placeholder='BirthDate' id= "birthDate" className= "birthDate"/>
     </div>
     <div className="custom-select">
     <select className='serviceSelect'>
@@ -71,7 +76,9 @@ export default function Services() {
   </div>
   <div className='FileSubmit'>
   <input type="file" id="myFile" onChange={upload} name="filename"/>
-    <button onClick={buttoncliked} ref={ref} id="validate"className='btnLogin'>Validate</button>
+  </div>
+  <div className='Validate'>
+  <button onClick={buttoncliked} id="validate" className='btnLogin'>Validate</button>
   </div>
   </div>
 </div>;
